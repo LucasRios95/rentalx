@@ -16,18 +16,10 @@ class SpecificationsRepository implements ISpecificationsRepository {
         this.repository = getRepository(Specification);
     }
 
-    // public static getInstance(): SpecificationsRepository {
-    //     if (!SpecificationsRepository.INSTANCE) {                                => Padrão Singleton
-    //         SpecificationsRepository.INSTANCE = new SpecificationsRepository();
-    //     }
-
-    //     return SpecificationsRepository.INSTANCE;
-    // }
-
     async create({
         name,
         description,
-    }: ICreateSpecificationDTO): Promise<void> {
+    }: ICreateSpecificationDTO): Promise<Specification> {
         const specification = this.repository.create({
             name,
             description,
@@ -35,7 +27,7 @@ class SpecificationsRepository implements ISpecificationsRepository {
 
         await this.repository.save(specification);
 
-        console.log(specification);
+        return specification;
     }
 
     async findByName(name: string): Promise<Specification> {
@@ -43,5 +35,19 @@ class SpecificationsRepository implements ISpecificationsRepository {
 
         return specification;
     }
+
+    async findByIds(ids: string[]): Promise<Specification[]> {
+        const specifications = await this.repository.findByIds(ids);
+
+        return specifications;
+    }
 }
 export { SpecificationsRepository };
+
+// public static getInstance(): SpecificationsRepository {
+//     if (!SpecificationsRepository.INSTANCE) {                                => Padrão Singleton
+//         SpecificationsRepository.INSTANCE = new SpecificationsRepository();
+//     }
+
+//     return SpecificationsRepository.INSTANCE;
+// }

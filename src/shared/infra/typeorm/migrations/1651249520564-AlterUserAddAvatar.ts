@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 export class AlterUserAddAvatar1651249520564 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.addColumn(
-            "Users",
+            "users",
             new TableColumn({
                 name: "avatar",
                 type: "varchar",
@@ -13,6 +13,6 @@ export class AlterUserAddAvatar1651249520564 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropColumn("Users", "avatar");
+        await queryRunner.dropColumn("users", "avatar");
     }
 }

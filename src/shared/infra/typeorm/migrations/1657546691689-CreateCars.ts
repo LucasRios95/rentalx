@@ -4,11 +4,12 @@ export class CreateCars1657546691689 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "Cars",
+                name: "cars",
                 columns: [
                     {
                         name: "id",
                         type: "uuid",
+                        isPrimary: true,
                     },
 
                     {
@@ -62,7 +63,7 @@ export class CreateCars1657546691689 implements MigrationInterface {
                 foreignKeys: [
                     {
                         name: "FKCategoryCar",
-                        referencedTableName: "Categories",
+                        referencedTableName: "categories",
                         referencedColumnNames: ["id"],
                         columnNames: ["category_id"],
                         onDelete: "SET NULL",

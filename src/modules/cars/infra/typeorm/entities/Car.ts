@@ -4,13 +4,16 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    ManyToMany,
+    JoinTable,
     PrimaryColumn,
 } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
 import { Category } from "./Category";
+import { Specification } from "./Specifications";
 
-@Entity("Cars")
+@Entity("cars")
 class Car {
     @PrimaryColumn()
     id?: string;
@@ -39,6 +42,14 @@ class Car {
     @ManyToOne(() => Category)
     @JoinColumn({ name: "category_id" })
     category: Category;
+
+    @ManyToMany(() => Specification)
+    @JoinTable({
+        name: "specifications_cars",
+        joinColumns: [{ name: "car_id" }],
+        inverseJoinColumns: [{ name: "specification_id" }],
+    })
+    specifications: Specification[];
 
     @Column()
     category_id: string;
