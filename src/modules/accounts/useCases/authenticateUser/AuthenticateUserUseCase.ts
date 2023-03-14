@@ -4,6 +4,9 @@ import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { AppErrors } from "@shared/errors/AppErrors";
+import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
+import auth from "@config/auth";
+import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 
 interface IRequest {
     email: string;
@@ -17,13 +20,19 @@ interface IResponse {
     };
 
     token: string;
+
+    refresh_token: string;
 }
 
 @injectable()
 class AuthenticateUserUseCase {
     constructor(
         @inject("UsersRepository")
-        private usersRepository: IUsersRepository
+        private usersRepository: IUsersRepository,
+        @inject("UsersTokenRepository")
+        private usersTokenRepository: IUsersTokenRepository,
+        @inject("DayjsDateProvider")
+        private dayjsDateProvider: IDateProvider
     ) {}
 
     async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -42,9 +51,26 @@ class AuthenticateUserUseCase {
         }
 
         // Gerar jsonwebtoken
-        const token = sign({}, "4612d9d8a7e9b56dedda17d9d171d985", {
+        const token = sign({}, auth.secret_token, {
             subject: user.id,
-            expiresIn: "1d",
+            expiresIn: auth.expires_in_token,
+        });
+
+        // gerando refresh token 
+        const refresh_token = sign({ email }, auth.secret_refresh_token, {
+            subject: user.id,
+            expiresIn: auth.expires_in_refresh_token
+        });
+
+        // configurando o dia de expiração do refresh_token
+        const expiration_day = this.dayjsDateProvider.addDays(
+            auth.expiration_day_refresh_token
+        );
+
+        await this.usersTokenRepository.create({
+            user_id: user.id, 
+            refresh_token,
+            expiration_day
         });
 
         const tokenAuthenticated: IResponse = {
@@ -52,7 +78,11 @@ class AuthenticateUserUseCase {
                 name: user.name,
                 email: user.email,
             },
+
             token,
+
+            refresh_token
+            
         };
 
         return tokenAuthenticated;
