@@ -3,7 +3,7 @@ import auth from "@config/auth";
 import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppErrors } from "@shared/errors/AppErrors";
-import { verify, sign } from "jsonwebtoken"
+import { verify, sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
 interface IPayload {
@@ -17,7 +17,7 @@ class RefreshTokenUseCase {
         @inject("UsersTokenRepository")
         private usersTokenRepository: IUsersTokenRepository,
 
-        @inject("DayJsDateProvider")
+        @inject("DayjsDateProvider")
         private dayjsDateProvider: IDateProvider
 
     ){}
