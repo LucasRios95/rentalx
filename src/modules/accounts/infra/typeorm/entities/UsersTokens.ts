@@ -1,8 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToMany,
+    ManyToOne,
+    PrimaryColumn,
+} from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
-import {User} from "./User";
-
+import { User } from "./User";
 
 @Entity("users_tokens")
 class UserTokens {
@@ -16,7 +22,7 @@ class UserTokens {
     user_id: string;
 
     @ManyToOne(() => User)
-    @JoinColumn({name: "user_id"})
+    @JoinColumn({ name: "user_id" })
     user: User;
 
     @Column()
@@ -26,11 +32,10 @@ class UserTokens {
     created_at: Date;
 
     constructor() {
-        if(!this.id) {
+        if (!this.id) {
             this.id = uuidV4();
         }
     }
-
 }
 
-export { UserTokens }
+export { UserTokens };

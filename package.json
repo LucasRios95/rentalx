@@ -22,7 +22,7 @@
     "supertest": "^6.3.0",
     "swagger-ui-express": "^4.1.6",
     "ts-jest": "^29.0.5",
-    "tsyringe": "^4.6.0",
+    "tsyringe": "^4.7.0",
     "typeorm": "^0.2.43",
     "uuid": "^8.3.2"
   },

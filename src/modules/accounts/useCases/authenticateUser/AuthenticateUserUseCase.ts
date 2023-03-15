@@ -2,11 +2,11 @@ import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
-import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { AppErrors } from "@shared/errors/AppErrors";
-import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
 import auth from "@config/auth";
+import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
+import { AppErrors } from "@shared/errors/AppErrors";
 
 interface IRequest {
     email: string;
@@ -56,10 +56,10 @@ class AuthenticateUserUseCase {
             expiresIn: auth.expires_in_token,
         });
 
-        // gerando refresh token 
+        // gerando refresh token
         const refresh_token = sign({ email }, auth.secret_refresh_token, {
             subject: user.id,
-            expiresIn: auth.expires_in_refresh_token
+            expiresIn: auth.expires_in_refresh_token,
         });
 
         // configurando o dia de expiração do refresh_token
@@ -68,9 +68,9 @@ class AuthenticateUserUseCase {
         );
 
         await this.usersTokenRepository.create({
-            user_id: user.id, 
+            user_id: user.id,
             refresh_token,
-            expiration_day
+            expiration_day,
         });
 
         const tokenAuthenticated: IResponse = {
@@ -81,8 +81,7 @@ class AuthenticateUserUseCase {
 
             token,
 
-            refresh_token
-            
+            refresh_token,
         };
 
         return tokenAuthenticated;
