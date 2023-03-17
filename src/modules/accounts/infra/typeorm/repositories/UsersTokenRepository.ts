@@ -1,7 +1,6 @@
 import { getRepository, Repository } from "typeorm";
 
 import { ICreateUsersTokenDTO } from "@modules/accounts/dtos/ICreateUsersTokenDTO";
-import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
 
 import { UserTokens } from "../entities/UsersTokens";

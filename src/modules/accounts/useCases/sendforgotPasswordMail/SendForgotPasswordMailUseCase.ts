@@ -19,7 +19,7 @@ class SendForgotPasswordMailUseCase {
         private dateProvider: IDateProvider
     ) {}
 
-    async execute(email: string) {
+    async execute(email: string): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
 
         if (!user) {
