@@ -5,6 +5,7 @@ interface IDateProvider {
     compareInDays(start_date: Date, end_date: Date): number;
     addDays(days: number): Date;
     adddHours(hours: number): Date;
+    compareIfBefore(start_date: Date, end_date: Date): number;
 }
 
 export { IDateProvider };
