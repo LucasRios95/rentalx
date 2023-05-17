@@ -11,6 +11,7 @@ class UsersTokenRepository implements IUsersTokenRepository {
     public constructor() {
         this.repository = getRepository(UserTokens);
     }
+   
     async create({
         expiration_day,
         user_id,
@@ -44,7 +45,6 @@ class UsersTokenRepository implements IUsersTokenRepository {
     }
 
     async findByRefreshToken(refresh_token: string): Promise<UserTokens> {
-<<<<<<< HEAD
         const userToken = await this.repository.findOne({
             refresh_token,
         });
@@ -52,14 +52,6 @@ class UsersTokenRepository implements IUsersTokenRepository {
         return userToken;
     }
     
-=======
-        const userTokens = await this.repository.findOne({
-            refresh_token,
-        });
-
-        return userTokens;
-    }
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
 }
 
 export { UsersTokenRepository };
