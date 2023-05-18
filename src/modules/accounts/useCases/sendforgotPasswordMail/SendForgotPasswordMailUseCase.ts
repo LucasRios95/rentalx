@@ -1,7 +1,7 @@
 import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { v4 as uuidV4 } from "uuid";
-import { resolve } from "path";
+
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
@@ -27,22 +27,12 @@ class SendForgotPasswordMailUseCase {
 
     async execute(email: string): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
-<<<<<<< HEAD
         const templatePath = resolve(
             __dirname, 
             "..", 
             "..", 
             "views", 
             "emails", 
-=======
-
-        const templatePath = resolve(
-            __dirname,
-            "..",
-            "..",
-            "views",
-            "emails",
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
             "forgotPassword.hbs"
         );
 
@@ -63,11 +53,8 @@ class SendForgotPasswordMailUseCase {
             name: user.name,
             link: `${process.env.FORGOT_MAIL_URL}${token}`,
         };
-<<<<<<< HEAD
         
-=======
 
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
         await this.mailProvider.sendMail(
             email,
             "Recuperação de senha",

@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppErrors } from "@shared/errors/AppErrors";
 import { inject, injectable } from "tsyringe";
 import { hash } from "bcryptjs";
-=======
-import { inject, injectable } from "tsyringe";
-
-import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
-import { AppErrors } from "@shared/errors/AppErrors";
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
 
 interface IRequest {
     token: string;
@@ -21,7 +14,6 @@ interface IRequest {
 class ResetPasswordUserUseCase {
     constructor(
         @inject("UsersTokenRepository")
-<<<<<<< HEAD
         private usersTokenRepository: IUsersTokenRepository,
         
         @inject("DayjsDateProvider")
@@ -55,22 +47,7 @@ class ResetPasswordUserUseCase {
         await this.usersRepository.create(user);
 
         await this.usersTokenRepository.deleteById(userToken.id);
-=======
-        private userstokenRepository: IUsersTokenRepository
-    ) {}
-
-    async execute({ token, password }: IRequest) {
-        const userToken = this.userstokenRepository.findByRefreshToken(token);
-
-        if (!userToken) {
-            throw new AppErrors("Invalid Token");
-        }
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
     }
 }
 
 export { ResetPasswordUserUseCase };
-<<<<<<< HEAD
-
-=======
->>>>>>> 54136c3884993d936199b916ac3022217fd374cd
