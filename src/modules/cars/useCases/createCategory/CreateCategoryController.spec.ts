@@ -34,17 +34,20 @@ describe("Create Category Controller", () => {
             password: "admin",
         });
 
-        const { refresh_token } = responseToken.body;
+        const { token } = responseToken.body;
+        console.log(responseToken.body);
 
         const response = await request(app)
             .post("/categories")
             .send({
-                name: "sedan",
+                name: "Sedan",
                 description: "Carros altos e rápidos",
             })
             .set({
-                Authorization: `Bearer ${refresh_token}`,
+                Authorization: `Bearer ${ token }`,
             });
+
+            console.log(response);
 
         expect(response.status).toBe(201);
     });
@@ -60,13 +63,13 @@ describe("Create Category Controller", () => {
         const response = await request(app)
             .post("/categories")
             .send({
-                name: "sedan",
+                name: "Sedan",
                 description: "Carros altos e rápidos",
             })
             .set({
-                Authorization: `Bearer ${refresh_token}`,
+                Authorization: `Bearer ${ refresh_token }`,
             });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(401);
     });
 });

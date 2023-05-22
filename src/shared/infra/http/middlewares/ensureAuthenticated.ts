@@ -3,6 +3,8 @@ import { verify } from "jsonwebtoken";
 
 import { UsersRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { AppErrors } from "@shared/errors/AppErrors";
+import { UsersTokenRepository } from "@modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
+import auth from "@config/auth";
 
 // import { UsersRepository } from "../../../../modules/accounts/infra/typeorm/repositories/UsersRepository";
 
@@ -16,6 +18,7 @@ export async function ensureAuthenticated(
     next: NextFunction
 ) {
     const authHeader = request.headers.authorization;
+    const usersTokenRepository = new UsersTokenRepository()
 
     if (!authHeader) {
         throw new AppErrors("Token missing");
@@ -26,11 +29,15 @@ export async function ensureAuthenticated(
     try {
         const { sub: user_id } = verify(
             token,
-            "4612d9d8a7e9b56dedda17d9d171d985"
+            auth.secret_refresh_token,
         ) as IPayload; // Ipayload pois o desestruturação do sub não é reconhecida sem a interface
 
-        const usersRepository = new UsersRepository();
-        const user = usersRepository.findById(user_id);
+        // const usersRepository = new UsersRepository();
+        // const user = usersRepository.findById(user_id);
+        const user = usersTokenRepository.findByUserId(
+            user_id, 
+            token
+        );
 
         if (!user) {
             throw new AppErrors("User does not exists", 401);
