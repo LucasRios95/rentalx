@@ -34,7 +34,7 @@ describe("List Category Controller", () => {
             password: "admin",
         });
 
-        const { token } = responseToken.body;
+        const { refresh_token } = responseToken.body;
         console.log(responseToken.body)
 
         await request(app)
@@ -44,7 +44,7 @@ describe("List Category Controller", () => {
                 description: "Carros altos e rápidos",
             })
             .set({
-                Authorization: `Bearer ${ token }`,
+                Authorization: `Bearer ${ refresh_token }`,
             });
 
         const response = await request(app).get("/categories");

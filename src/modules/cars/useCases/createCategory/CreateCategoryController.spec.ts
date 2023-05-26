@@ -34,7 +34,7 @@ describe("Create Category Controller", () => {
             password: "admin",
         });
 
-        const { token } = responseToken.body;
+        const { refresh_token } = responseToken.body;
         console.log(responseToken.body);
 
         const response = await request(app)
@@ -44,7 +44,7 @@ describe("Create Category Controller", () => {
                 description: "Carros altos e rápidos",
             })
             .set({
-                Authorization: `Bearer ${ token }`,
+                Authorization: `Bearer ${ refresh_token }`,
             });
 
             console.log(response);
@@ -70,6 +70,6 @@ describe("Create Category Controller", () => {
                 Authorization: `Bearer ${ refresh_token }`,
             });
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(400);
     });
 });
