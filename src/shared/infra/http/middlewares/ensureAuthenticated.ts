@@ -18,7 +18,7 @@ export async function ensureAuthenticated(
     next: NextFunction
 ) {
     const authHeader = request.headers.authorization;
-    const usersTokenRepository = new UsersTokenRepository()
+    // const usersTokenRepository = new UsersTokenRepository()
 
     if (!authHeader) {
         throw new AppErrors("Token missing");
@@ -29,19 +29,19 @@ export async function ensureAuthenticated(
     try {
         const { sub: user_id } = verify(
             token,
-            auth.secret_refresh_token,
+            auth.secret_token,
         ) as IPayload; // Ipayload pois o desestruturação do sub não é reconhecida sem a interface
 
         // const usersRepository = new UsersRepository();
         // const user = usersRepository.findById(user_id);
-        const user = usersTokenRepository.findByUserId(
-            user_id, 
-            token
-        );
+        // const user = usersTokenRepository.findByUserId(
+        //     user_id, 
+        //     token
+        // );
 
-        if (!user) {
-            throw new AppErrors("User does not exists", 401);
-        }
+        // if (!user) {
+        //     throw new AppErrors("User does not exists", 401);
+        // }
 
         request.user = {
             id: user_id,
