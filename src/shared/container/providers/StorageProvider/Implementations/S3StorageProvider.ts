@@ -28,12 +28,21 @@ class S3StorageProvider implements IStorageProvider {
             Key: file,
             ACL: "public-read",
             Body: fileContent,
-            ContentType
+            ContentType,
         })
+        .promise();
+
+        await fs.promises.unlink(originalName);
+
+        return file;
+
 
     }
     async delete(file: string, folder: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.client.deleteObject({
+            Bucket: `${process.env.AWS_BUCKET}/${folder}`,
+            Key: file,   
+        }).promise();
     }
 }
 
