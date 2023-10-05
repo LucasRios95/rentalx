@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --extensions \".js, .ts\" --out-dir dist --copy-files",
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "ts-node-dev -r tsconfig-paths/register --poll --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register --poll ./node_modules/typeorm/cli",
     "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
@@ -34,11 +34,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.22.15",
-    "@babel/core": "^7.22.17",
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.0",
     "@babel/node": "^7.22.15",
     "@babel/plugin-proposal-decorators": "^7.22.15",
     "@babel/plugin-transform-class-properties": "^7.22.5",
+    "@babel/plugin-transform-typescript": "^7.22.15",
     "@babel/preset-env": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
     "@types/bcryptjs": "^2.4.2",
