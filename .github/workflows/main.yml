@@ -1,0 +1,44 @@
+name: CI
+
+on: 
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node: [ 14, 16, 18 ]    
+    
+    name: Node ${{ matrix.node }}  sample
+    
+    steps:
+      - uses: actions/checkout@v4 #busca o código mais atual dentro do repositório do github
+      
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          
+      - name: Install Dependencies
+        run: yarn install
+        
+      - name: Build
+        run: yarn build
+
+      - uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "., !node_modules"
+          target: "test"
+      
+        
+      
+          
