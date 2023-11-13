@@ -8,10 +8,6 @@ import swaggerUi from "swagger-ui-express";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 
-
-
-
-
 import "@shared/container";
 import upload from "@config/upload";
 import { AppErrors } from "@shared/errors/AppErrors";
