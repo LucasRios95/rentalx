@@ -20,8 +20,6 @@ const limiter = new RateLimiterRedis({
     duration: 5,
 });
 
-
-
 export default async function rateLimiter(
     request: Request,
     response: Response,
@@ -29,10 +27,17 @@ export default async function rateLimiter(
 ): Promise<void> {
     try {
         await redisClient.connect();
-        await limiter.consume(request.ip);
 
+        if (process.env.NODE_ENV === 'production') {
+            await limiter.consume(request.ip);
+        }
         return next();
+
     } catch (err) {
+        if (err instanceof Error && err.message === "Not enough points") {
+            return next();
+        }
+        
         throw new AppErrors("Too many requests", 429);
     } finally {
         redisClient.disconnect();
