@@ -20,22 +20,22 @@ import { router } from "./routes";
 createConnection();
 const app = express();
 
-app.use(rateLimiter);
+// app.use(rateLimiter);
 
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     integrations: [
-        // enable HTTP calls tracing
-        new Sentry.Integrations.Http({ tracing: true }),
-        // enable Express.js middleware tracing
-        new Sentry.Integrations.Express({ app }),
-        new ProfilingIntegration(),
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Sentry.Integrations.Express({ app }),
+      new ProfilingIntegration(),
     ],
     // Performance Monitoring
     tracesSampleRate: 1.0,
     // Set sampling rate for profiling - this is relative to tracesSampleRate
     profilesSampleRate: 1.0,
-});
+  });
 
 app.use(express.json());
 
